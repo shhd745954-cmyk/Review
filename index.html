@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart AI Review Card</title>
+    <!-- Icons ke liye FontAwesome Loading -->
+    <link rel="stylesheet" href="https://cloudflare.com">
+    
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        body { background: #f3f4f6; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 15px; }
+        
+        .review-card { background: #ffffff; padding: 25px; border-radius: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); width: 100%; max-width: 420px; text-align: center; border: 1px solid #e5e7eb; }
+        .biz-icon { width: 70px; height: 70px; background: #eff6ff; border-radius: 50%; margin: 0 auto 12px; display: flex; align-items: center; justify-content: center; font-size: 30px; color: #2563eb; }
+        
+        h2 { color: #111827; font-size: 24px; font-weight: 700; margin-bottom: 4px; }
+        .sub-text { color: #6b7280; font-size: 14px; margin-bottom: 20px; }
+        
+        .section-header { font-size: 15px; font-weight: 600; color: #374151; text-align: left; margin: 18px 0 8px; display: flex; align-items: center; gap: 8px; }
+        
+        /* AI Box Style */
+        .ai-container { background: #f9fafb; padding: 15px; border-radius: 16px; border: 1px solid #e5e7eb; margin-bottom: 15px; }
+        .btn-group { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; }
+        .tag-btn { background: #e5e7eb; border: none; padding: 8px 14px; border-radius: 20px; cursor: pointer; font-size: 13px; font-weight: 500; color: #374151; transition: 0.2s; }
+        .tag-btn.active { background: #2563eb; color: #ffffff; }
+        
+        .review-box { width: 100%; height: 110px; margin-top: 12px; padding: 12px; border-radius: 10px; border: 1px solid #d1d5db; resize: none; font-size: 13.5px; background: #ffffff; line-height: 1.4; color: #1f2937; }
+        
+        .ctrl-row { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; }
+        .action-mini-btn { font-size: 12.5px; padding: 7px 12px; border-radius: 8px; border: none; cursor: pointer; display: flex; align-items: center; gap: 5px; font-weight: 500; }
+        .btn-regen { background: #2563eb; color: white; }
+        .btn-copy { background: #1f2937; color: white; }
+        
+        /* Action Links Buttons */
+        .main-btn { display: flex; align-items: center; justify-content: center; width: 100%; padding: 13px; margin: 8px 0; border: none; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer; text-decoration: none; transition: 0.2s; }
+        .main-btn i { margin-right: 10px; font-size: 18px; }
+        
+        .google-color { background: #4285F4; color: white; }
+        .whatsapp-color { background: #25D366; color: white; }
+        .instagram-color { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); color: white; }
+    </style>
+</head>
+<body>
+
+    <div class="review-card">
+        <div class="biz-icon"><i class="fa-solid fa-store"></i></div>
+        <h2 id="display-biz-name">Apna Business Name</h2>
+        <p class="sub-text">Hamein rate karein aur hamare social media par judein!</p>
+
+        <!-- AI REVIEW ENGINE -->
+        <div class="ai-container">
+            <div class="section-header" style="margin-top:0;"><i class="fa-solid fa-robot" style="color:#2563eb;"></i> AI Text Generator</div>
+            <p style="font-size:12px; color:#6b7280; margin-bottom:10px; text-align:left;">Neeche se keywords select karein (Har baar alag text banega):</p>
+            
+            <div class="btn-group">
+                <button class="tag-btn" onclick="toggleTag(this, 'service')">Great Service</button>
+                <button class="tag-btn" onclick="toggleTag(this, 'staff')">Friendly Staff</button>
+                <button class="tag-btn" onclick="toggleTag(this, 'speed')">Fast Delivery</button>
+                <button class="tag-btn" onclick="toggleTag(this, 'quality')">Best Quality</button>
+                <button class="tag-btn" onclick="toggleTag(this, 'recommend')">Highly Recommended</button>
+            </div>
+            
+            <textarea id="output-text" class="review-box" readonly placeholder="Yahan aapka automatic unique AI review generate hoga..."></textarea>
+            
+            <div class="ctrl-row">
+                <button class="action-mini-btn btn-regen" onclick="generateReview()"><i class="fa-solid fa-arrows-rotate"></i> Text Badlein</button>
+                <button class="action-mini-btn btn-copy" onclick="copyToClipboard()"><i class="fa-regular fa-copy"></i> Copy Text</button>
+            </div>
+        </div>
+
+        <!-- LINK BUTTONS -->
+        <div class="section-header"><i class="fa-solid fa-circle-arrow-down" style="color:#16a34a;"></i> 1. Pehle Review Paste Karein</div>
+        <a href="#" id="go-google" target="_blank" class="main-btn google-color"><i class="fa-brands fa-google"></i> Google Par Review Dein</a>
+
+        <div class="section-header"><i class="fa-solid fa-share-nodes"></i> 2. Hamein Connect Karein</div>
+        <a href="#" id="go-whatsapp" target="_blank" class="main-btn whatsapp-color"><i class="fa-brands fa-whatsapp"></i> WhatsApp Chat</a>
+        <a href="#" id="go-instagram" target="_blank" class="main-btn instagram-color"><i class="fa-brands fa-instagram"></i> Instagram Follow</a>
+    </div>
+
+<script>
+    // ==========================================
+    // ⚙️ BAS YAHAN APNI DETAILS CODES MEIN BADLEIN
+    // ==========================================
+    const CONFIG_NAME = "Aapki Dukaan Ka Naam";
+    const URL_GOOGLE = "https://google.com"; 
+    const URL_WHATSAPP = "https://wa.me!"; 
+    const URL_INSTAGRAM = "https://instagram.com"; 
+
+    // Setup links instantly
+    document.getElementById('display-biz-name').innerText = CONFIG_NAME;
+    document.getElementById('go-google').href = URL_GOOGLE;
+    document.getElementById('go-whatsapp').href = URL_WHATSAPP;
+    document.getElementById('go-instagram').href = URL_INSTAGRAM;
+
+    // AI Dynamic Phrases
+    const dataBank = {
+        starters: [
+            `Absolutely loved my experience with ${CONFIG_NAME}!`,
+            `Highly recommend ${CONFIG_NAME} for their fantastic work.`,
+            `I am a very happy customer of ${CONFIG_NAME} and will surely visit again.`,
+            `Had a wonderful interaction with the team at ${CONFIG_NAME}.`
+        ],
+        service: [
+            "The customer service was top-notch, super professional, and welcoming.",
+            "Their team handles clients beautifully with excellent service support.",
+            "Amazing experience! They genuinely care about providing standard service."
+        ],
+        staff: [
+            "The staff members are incredibly polite, humble, and cooperative.",
+            "Everyone working here is very well-mannered and extremely helpful.",
+            "Shoutout to the amazing staff for their wonderful behavior and support!"
+        ],
+        speed: [
+            "I was completely shocked by their super fast response and quick delivery.",
+            "Extremely efficient workflow. They complete tasks without wasting any time.",
+            "The speed of their service is commendable. No unnecessary waiting!"
+        ],
+        quality: [
+            "The quality of their product/service is superb and highly premium.",
+            "No compromise on quality here! Completely authentic and outstanding standard.",
+            "Everything they offer is robust, neat, and absolutely worth the pricing."
+        ],
+        recommend: [
+            "If you want genuine work, this is hands down the best place in town.",
+            "Do not think twice, blindly go for them. 100% recommended!",
+            "Will definitely refer them to all my close friends and family members."
+        ],
+        ends: [
+            "Highly satisfied. Five stars all the way! ⭐⭐⭐⭐⭐",
+            "Great job team, keep it up! ⭐⭐⭐⭐⭐",
+            "A truly perfect experience. ⭐⭐⭐⭐⭐"
+        ]
+    };
+
+    let chosenTags = [];
+
+    function toggleTag(btn, val) {
+        btn.classList.toggle('active');
+        if (btn.classList.contains('active')) {
+            chosenTags.push(val);
+        } else {
+            chosenTags = chosenTags.filter(item => item !== val);
+        }
+        generateReview();
+    }
+
+    function generateReview() {
+        const txtArea = document.getElementById('output-text');
+        if (chosenTags.length === 0) {
+            txtArea.value = "";
+            return;
+        }
+        
+        let story = [];
+        const pick = (list) => list[Math.floor(Math.random() * list.length)];
+        
+        story.push(pick(dataBank.starters));
+        chosenTags.forEach(t => { if(dataBank[t]) story.push(pick(dataBank[t])); });
+        story.push(pick(dataBank.ends));
+        
+        txtArea.value = story.join(" ");
+    }
+
+    function copyToClipboard() {
+        const txtArea = document.getElementById('output-text');
+        if(!txtArea.value) {
+            alert("Pehle koi option select karein!");
+            return;
+        }
+        txtArea.select();
+        navigator.clipboard.writeText(txtArea.value);
+        alert("Review text copy ho gaya! Ab upar Google button dabakar wahan paste kar dein.");
+    }
+</script>
+</body>
+</html>
