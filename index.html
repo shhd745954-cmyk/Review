@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart AI Review Card</title>
     <!-- Icons Library Link -->
-    <link rel="stylesheet" href="https://cloudflare.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
@@ -13,6 +13,7 @@
         
         .review-card { background: #ffffff; padding: 25px; border-radius: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); width: 100%; max-width: 420px; text-align: center; border: 1px solid #e5e7eb; }
         
+        .biz-title { font-size: 20px; font-weight: 700; color: #111827; margin-bottom: 4px; }
         .sub-text { color: #6b7280; font-size: 14px; margin-bottom: 20px; font-weight: 500; }
         
         .section-header { font-size: 15px; font-weight: 600; color: #374151; text-align: left; margin: 18px 0 8px; display: flex; align-items: center; gap: 8px; }
@@ -42,6 +43,7 @@
 <body>
 
     <div class="review-card">
+        <h2 id="biz-name" class="biz-title">Welcome!</h2>
         <p class="sub-text">Select keywords below to share your experience with us!</p>
 
         <!-- AI REVIEW ENGINE -->
@@ -75,18 +77,21 @@
     </div>
 
 <script>
-        // ==========================================
-    // ⚙️ BASE SETTINGS: YOUR INSTANT LINKS
-    // ==========================================
-    const URL_GOOGLE = "https://search.google.com/local/writereview?placeid=ChIJl5rG3rhZNDoRqfi5I-qH_mA"; // Put your Google Place ID Review Link
-    const URL_INSTAGRAM = "https://instagram.com"; // Put your Instagram Profile URL
-    const URL_WHATSAPP = "https://wa.me/qr/VXEESEVHMUERB1"; // Put your complete WhatsApp Link/URL here
+    // Dynamic URL Parameter Extractor
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    const BIZ_NAME = urlParams.get('name') || "Our Business";
+    const URL_GOOGLE = urlParams.get('g') || "https://google.com";
+    const URL_INSTAGRAM = urlParams.get('ig') || "https://instagram.com";
+    const URL_WHATSAPP = urlParams.get('wa') || ""; // Ab yahan poora WhatsApp link pass hoga
+
+    // Update business title dynamically
+    document.getElementById('biz-name').innerText = BIZ_NAME;
 
     // Init links
     document.getElementById('go-google').href = URL_GOOGLE;
     document.getElementById('go-instagram').href = URL_INSTAGRAM;
-    document.getElementById('go-whatsapp').href = URL_WHATSAPP;
-
+    document.getElementById('go-whatsapp').href = URL_WHATSAPP || "#";
 
     // AI Phrases Data Bank
     const dataBank = {
@@ -117,9 +122,9 @@
             "Do not think twice, blindly go for them. 100% recommended!"
         ],
         ends: [
-            "Highly satisfied. Five stars all the way! ",
+            "Highly satisfied. Five stars all the way! ⭐⭐⭐⭐⭐",
             "Great job team, keep it up! ",
-            "A truly perfect experience."
+            "A truly perfect experience. "
         ]
     };
 
@@ -159,9 +164,9 @@
         const finalReviewText = story.join(" ");
         txtArea.value = finalReviewText;
 
-        // Dynamic WhatsApp share link configuration
-        if(finalReviewText) {
-            document.getElementById('go-whatsapp').href = "https://wa.me" + BASE_WHATSAPP_NUMBER + "?text=" + encodeURIComponent(finalReviewText);
+        // Agar WhatsApp URL diya gaya hai toh usko set karega
+        if(finalReviewText && URL_WHATSAPP) {
+            document.getElementById('go-whatsapp').href = URL_WHATSAPP;
         }
     }
 
@@ -174,7 +179,6 @@
         txtArea.select();
         navigator.clipboard.writeText(txtArea.value);
         
-        // Instant button confirmation feedback
         copyBtn.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
         copyBtn.style.background = '#16a34a';
         setTimeout(() => {
