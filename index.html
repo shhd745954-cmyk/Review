@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart AI Review Card</title>
-    <!-- FontAwesome Icons Link -->
+    <!-- Icons Library Link -->
     <link rel="stylesheet" href="https://cloudflare.com">
     
     <style>
@@ -12,18 +12,11 @@
         body { background: #f3f4f6; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 15px; }
         
         .review-card { background: #ffffff; padding: 25px; border-radius: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); width: 100%; max-width: 420px; text-align: center; border: 1px solid #e5e7eb; }
-        .biz-icon { width: 70px; height: 70px; background: #eff6ff; border-radius: 50%; margin: 0 auto 12px; display: flex; align-items: center; justify-content: center; font-size: 30px; color: #2563eb; }
         
-        h2 { color: #111827; font-size: 24px; font-weight: 700; margin-bottom: 4px; }
-        .sub-text { color: #6b7280; font-size: 14px; margin-bottom: 20px; }
+        .sub-text { color: #6b7280; font-size: 14px; margin-bottom: 20px; font-weight: 500; }
         
         .section-header { font-size: 15px; font-weight: 600; color: #374151; text-align: left; margin: 18px 0 8px; display: flex; align-items: center; gap: 8px; }
         
-        /* Star Rating Style */
-        .stars-wrapper { display: flex; justify-content: center; gap: 10px; margin: 5px 0 15px; }
-        .star-item { font-size: 32px; color: #d1d5db; cursor: pointer; transition: color 0.1s; }
-        .star-item.active { color: #f4b400; }
-
         /* AI Box Style */
         .ai-container { background: #f9fafb; padding: 15px; border-radius: 16px; border: 1px solid #e5e7eb; margin-bottom: 15px; }
         .btn-group { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; }
@@ -49,24 +42,12 @@
 <body>
 
     <div class="review-card">
-        <div class="biz-icon"><i class="fa-solid fa-store"></i></div>
-        <h2 id="display-biz-name">Company Name</h2>
-        <p class="sub-text">Rate us and stay connected with our social media!</p>
+        <p class="sub-text">Select keywords below to share your experience with us!</p>
 
         <!-- AI REVIEW ENGINE -->
         <div class="ai-container">
-            <div class="section-header" style="margin-top:0;"><i class="fa-solid fa-star" style="color:#f4b400;"></i> Select Your Rating</div>
-            <!-- 1 to 5 Stars System -->
-            <div class="stars-wrapper">
-                <i class="fa-solid fa-star star-item" onclick="setRating(1)"></i>
-                <i class="fa-solid fa-star star-item" onclick="setRating(2)"></i>
-                <i class="fa-solid fa-star star-item" onclick="setRating(3)"></i>
-                <i class="fa-solid fa-star star-item" onclick="setRating(4)"></i>
-                <i class="fa-solid fa-star star-item" onclick="setRating(5)"></i>
-            </div>
-
-            <div class="section-header"><i class="fa-solid fa-robot" style="color:#2563eb;"></i> AI Text Generator</div>
-            <p style="font-size:12px; color:#6b7280; margin-bottom:10px; text-align:left;">Select keywords below to customize your experience:</p>
+            <div class="section-header" style="margin-top:0;"><i class="fa-solid fa-robot" style="color:#2563eb;"></i> AI Text Generator</div>
+            <p style="font-size:12px; color:#6b7280; margin-bottom:10px; text-align:left;">Choose options to customize your review text:</p>
             
             <div class="btn-group">
                 <button class="tag-btn" onclick="toggleTag(this, 'service')">Great Service</button>
@@ -94,63 +75,111 @@
     </div>
 
 <script>
-    // ==========================================
-    // ⚙️ UPDATE YOUR BUSINESS LINKS & DETAILS HERE
-    // ==========================================
-    const CONFIG_NAME = "Your Brand Name";
-    const URL_GOOGLE = "https://google.com"; 
-    const URL_WHATSAPP = "https://wa.me!"; 
-    const URL_INSTAGRAM = "https://instagram.com"; 
+    // =========================================================================
+    // ⚙️ BASE SETTINGS: AAPKA GOOGLE LINK TAIYAR HAI, WHATSAPP & INSTA BADLEIN
+    // =========================================================================
+    const MY_PLACE_ID = "ChIJl5rG3rhZNDoRqfi5I-qH_mA"; // <-- Aapki Google Place ID dynamic set ho chuki hai
+    const MY_WHATSAPP = "919999999999";                 // <-- Apna WhatsApp number daalein (91 ke sath)
+    const MY_INSTAGRAM = "your_username";                // <-- Apna Instagram username handle daalein
 
-    // Setup links instantly
-    document.getElementById('display-biz-name').innerText = CONFIG_NAME;
-    document.getElementById('go-google').href = URL_GOOGLE;
-    document.getElementById('go-whatsapp').href = URL_WHATSAPP;
-    document.getElementById('go-instagram').href = URL_INSTAGRAM;
+    // Automating links injection
+    document.getElementById('go-google').href = "https://google.com" + MY_PLACE_ID;
+    document.getElementById('go-instagram').href = "https://instagram.com" + MY_INSTAGRAM;
+    document.getElementById('go-whatsapp').href = "https://wa.me" + MY_WHATSAPP;
 
-    // AI Dynamic Phrases Base Data
+    // AI Phrases Data Bank
     const dataBank = {
-        starters: {
-            high: [
-                `Absolutely loved my experience with ${CONFIG_NAME}!`,
-                `Highly recommend ${CONFIG_NAME} for their fantastic work.`,
-                `I am a very happy customer of ${CONFIG_NAME} and will surely visit again.`,
-                `Had a wonderful interaction with the team at ${CONFIG_NAME}.`
-            ],
-            low: [
-                `My experience with ${CONFIG_NAME} could have been much better.`,
-                `Was expecting a lot more from ${CONFIG_NAME} based on expectations.`,
-                `Average standard handling during my recent project with ${CONFIG_NAME}.`
-            ]
-        },
-        service: {
-            high: ["The customer service was top-notch, super professional, and welcoming.", "Their team handles clients beautifully with excellent service support."],
-            low: ["The customer service needs basic improvement.", "Response workflows felt a little slow and unorganized."]
-        },
-        staff: {
-            high: ["The staff members are incredibly polite, humble, and cooperative.", "Everyone working here is very well-mannered and extremely helpful."],
-            low: ["The staff coordination needs a bit of training.", "Felt that staff members were heavily preoccupied."]
-        },
-        speed: {
-            high: ["I was completely shocked by their super fast response and quick delivery.", "Extremely efficient workflow without wasting any time."],
-            low: ["The delivery and updates took longer than initially promised.", "Expect some delays when managing time-sensitive jobs."]
-        },
-        quality: {
-            high: ["The quality of their product/service is superb and highly premium.", "No compromise on quality here! Completely authentic standard."],
-            low: ["The overall finishing and build quality could definitely be polished.", "Average material standard provided compared to the pricing metrics."]
-        },
-        recommend: {
-            high: ["If you want genuine work, this is hands down the best place in town.", "Do not think twice, blindly go for them. 100% recommended!"],
-            low: ["Check out your regular local alternatives before processing directly.", "Consider trying them only if you are out of immediate choices."]
-        }
+        starters: [
+            "Absolutely loved my experience!",
+            "Highly recommend them for their fantastic work.",
+            "I am a very happy customer and will surely visit again.",
+            "Had a wonderful interaction with the team."
+        ],
+        service: [
+            "The customer service was top-notch, super professional, and welcoming.",
+            "Their team handles clients beautifully with excellent service support."
+        ],
+        staff: [
+            "The staff members are incredibly polite, humble, and cooperative.",
+            "Everyone working here is very well-mannered and extremely helpful."
+        ],
+        speed: [
+            "I was completely shocked by their super fast response and quick delivery.",
+            "Extremely efficient workflow without wasting any time."
+        ],
+        quality: [
+            "The quality of their product/service is superb and highly premium.",
+            "No compromise on quality here! Completely authentic standard."
+        ],
+        recommend: [
+            "If you want genuine work, this is hands down the best place in town.",
+            "Do not think twice, blindly go for them. 100% recommended!"
+        ],
+        ends: [
+            "Highly satisfied. Five stars all the way! ⭐⭐⭐⭐⭐",
+            "Great job team, keep it up! ⭐⭐⭐⭐⭐",
+            "A truly perfect experience. ⭐⭐⭐⭐⭐"
+        ]
     };
 
     let chosenTags = [];
-    let currentRating = 0;
 
-    function setRating(ratingValue) {
-        currentRating = ratingValue;
-        const stars = document.querySelectorAll('.star-item');
+    function toggleTag(btn, val) {
+        btn.classList.toggle('active');
+        if (btn.classList.contains('active')) {
+            chosenTags.push(val);
+        } else {
+            chosenTags = chosenTags.filter(item => item !== val);
+        }
+        generateReview();
+    }
+
+    function generateReview() {
+        const txtArea = document.getElementById('output-text');
         
-        stars.forEach((star, idx) => {
-            if (idx < ratingValue) {
+        if (chosenTags.length === 0) {
+            txtArea.value = "";
+            return;
+        }
+        
+        let story = [];
+        const pick = (list) => list[Math.floor(Math.random() * list.length)];
+        
+        story.push(pick(dataBank.starters));
+        
+        chosenTags.forEach(t => { 
+            if(dataBank[t]) {
+                story.push(pick(dataBank[t])); 
+            }
+        });
+        
+        story.push(pick(dataBank.ends));
+        
+        const finalReviewText = story.join(" ");
+        txtArea.value = finalReviewText;
+
+        if(finalReviewText) {
+            document.getElementById('go-whatsapp').href = "https://wa.me" + MY_WHATSAPP + "?text=" + encodeURIComponent(finalReviewText);
+        }
+    }
+
+    function copyToClipboard() {
+        const txtArea = document.getElementById('output-text');
+        const copyBtn = document.getElementById('copy-btn');
+        if(!txtArea.value) {
+            return;
+        }
+        txtArea.select();
+        navigator.clipboard.writeText(txtArea.value);
+        
+        // Instant visual feedback system 
+        copyBtn.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
+        copyBtn.style.background = '#16a34a';
+        setTimeout(() => {
+            copyBtn.innerHTML = '<i class="fa-regular fa-copy"></i> Copy Text';
+            copyBtn.style.background = '#1f2937';
+        }, 2000);
+    }
+</script>
+</body>
+</html>
