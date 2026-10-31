@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart AI Review Card</title>
-    <!-- Icons ke liye FontAwesome Loading -->
+    <!-- FontAwesome Icons Link -->
     <link rel="stylesheet" href="https://cloudflare.com">
     
     <style>
@@ -19,6 +19,11 @@
         
         .section-header { font-size: 15px; font-weight: 600; color: #374151; text-align: left; margin: 18px 0 8px; display: flex; align-items: center; gap: 8px; }
         
+        /* Star Rating Style */
+        .stars-wrapper { display: flex; justify-content: center; gap: 10px; margin: 5px 0 15px; }
+        .star-item { font-size: 32px; color: #d1d5db; cursor: pointer; transition: color 0.1s; }
+        .star-item.active { color: #f4b400; }
+
         /* AI Box Style */
         .ai-container { background: #f9fafb; padding: 15px; border-radius: 16px; border: 1px solid #e5e7eb; margin-bottom: 15px; }
         .btn-group { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; }
@@ -30,7 +35,7 @@
         .ctrl-row { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; }
         .action-mini-btn { font-size: 12.5px; padding: 7px 12px; border-radius: 8px; border: none; cursor: pointer; display: flex; align-items: center; gap: 5px; font-weight: 500; }
         .btn-regen { background: #2563eb; color: white; }
-        .btn-copy { background: #1f2937; color: white; }
+        .btn-copy { background: #1f2937; color: white; transition: background 0.2s; }
         
         /* Action Links Buttons */
         .main-btn { display: flex; align-items: center; justify-content: center; width: 100%; padding: 13px; margin: 8px 0; border: none; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer; text-decoration: none; transition: 0.2s; }
@@ -45,13 +50,23 @@
 
     <div class="review-card">
         <div class="biz-icon"><i class="fa-solid fa-store"></i></div>
-        <h2 id="display-biz-name">Apna Business Name</h2>
-        <p class="sub-text">Hamein rate karein aur hamare social media par judein!</p>
+        <h2 id="display-biz-name">Company Name</h2>
+        <p class="sub-text">Rate us and stay connected with our social media!</p>
 
         <!-- AI REVIEW ENGINE -->
         <div class="ai-container">
-            <div class="section-header" style="margin-top:0;"><i class="fa-solid fa-robot" style="color:#2563eb;"></i> AI Text Generator</div>
-            <p style="font-size:12px; color:#6b7280; margin-bottom:10px; text-align:left;">Neeche se keywords select karein (Har baar alag text banega):</p>
+            <div class="section-header" style="margin-top:0;"><i class="fa-solid fa-star" style="color:#f4b400;"></i> Select Your Rating</div>
+            <!-- 1 to 5 Stars System -->
+            <div class="stars-wrapper">
+                <i class="fa-solid fa-star star-item" onclick="setRating(1)"></i>
+                <i class="fa-solid fa-star star-item" onclick="setRating(2)"></i>
+                <i class="fa-solid fa-star star-item" onclick="setRating(3)"></i>
+                <i class="fa-solid fa-star star-item" onclick="setRating(4)"></i>
+                <i class="fa-solid fa-star star-item" onclick="setRating(5)"></i>
+            </div>
+
+            <div class="section-header"><i class="fa-solid fa-robot" style="color:#2563eb;"></i> AI Text Generator</div>
+            <p style="font-size:12px; color:#6b7280; margin-bottom:10px; text-align:left;">Select keywords below to customize your experience:</p>
             
             <div class="btn-group">
                 <button class="tag-btn" onclick="toggleTag(this, 'service')">Great Service</button>
@@ -61,28 +76,28 @@
                 <button class="tag-btn" onclick="toggleTag(this, 'recommend')">Highly Recommended</button>
             </div>
             
-            <textarea id="output-text" class="review-box" readonly placeholder="Yahan aapka automatic unique AI review generate hoga..."></textarea>
+            <textarea id="output-text" class="review-box" readonly placeholder="Your automatic unique AI review will generate here..."></textarea>
             
             <div class="ctrl-row">
-                <button class="action-mini-btn btn-regen" onclick="generateReview()"><i class="fa-solid fa-arrows-rotate"></i> Text Badlein</button>
-                <button class="action-mini-btn btn-copy" onclick="copyToClipboard()"><i class="fa-regular fa-copy"></i> Copy Text</button>
+                <button class="action-mini-btn btn-regen" onclick="generateReview()"><i class="fa-solid fa-arrows-rotate"></i> Change Text</button>
+                <button id="copy-btn" class="action-mini-btn btn-copy" onclick="copyToClipboard()"><i class="fa-regular fa-copy"></i> Copy Text</button>
             </div>
         </div>
 
         <!-- LINK BUTTONS -->
-        <div class="section-header"><i class="fa-solid fa-circle-arrow-down" style="color:#16a34a;"></i> 1. Pehle Review Paste Karein</div>
-        <a href="#" id="go-google" target="_blank" class="main-btn google-color"><i class="fa-brands fa-google"></i> Google Par Review Dein</a>
+        <div class="section-header"><i class="fa-solid fa-circle-arrow-down" style="color:#16a34a;"></i> Step 1: Copy & Paste Review Here</div>
+        <a href="#" id="go-google" target="_blank" class="main-btn google-color"><i class="fa-brands fa-google"></i> Write Review on Google</a>
 
-        <div class="section-header"><i class="fa-solid fa-share-nodes"></i> 2. Hamein Connect Karein</div>
-        <a href="#" id="go-whatsapp" target="_blank" class="main-btn whatsapp-color"><i class="fa-brands fa-whatsapp"></i> WhatsApp Chat</a>
-        <a href="#" id="go-instagram" target="_blank" class="main-btn instagram-color"><i class="fa-brands fa-instagram"></i> Instagram Follow</a>
+        <div class="section-header"><i class="fa-solid fa-share-nodes"></i> Step 2: Follow & Connect with Us</div>
+        <a href="#" id="go-whatsapp" target="_blank" class="main-btn whatsapp-color"><i class="fa-brands fa-whatsapp"></i> Chat on WhatsApp</a>
+        <a href="#" id="go-instagram" target="_blank" class="main-btn instagram-color"><i class="fa-brands fa-instagram"></i> Follow on Instagram</a>
     </div>
 
 <script>
     // ==========================================
-    // ⚙️ BAS YAHAN APNI DETAILS CODES MEIN BADLEIN
+    // ⚙️ UPDATE YOUR BUSINESS LINKS & DETAILS HERE
     // ==========================================
-    const CONFIG_NAME = "Aapki Dukaan Ka Naam";
+    const CONFIG_NAME = "Your Brand Name";
     const URL_GOOGLE = "https://google.com"; 
     const URL_WHATSAPP = "https://wa.me!"; 
     const URL_INSTAGRAM = "https://instagram.com"; 
@@ -93,85 +108,49 @@
     document.getElementById('go-whatsapp').href = URL_WHATSAPP;
     document.getElementById('go-instagram').href = URL_INSTAGRAM;
 
-    // AI Dynamic Phrases
+    // AI Dynamic Phrases Base Data
     const dataBank = {
-        starters: [
-            `Absolutely loved my experience with ${CONFIG_NAME}!`,
-            `Highly recommend ${CONFIG_NAME} for their fantastic work.`,
-            `I am a very happy customer of ${CONFIG_NAME} and will surely visit again.`,
-            `Had a wonderful interaction with the team at ${CONFIG_NAME}.`
-        ],
-        service: [
-            "The customer service was top-notch, super professional, and welcoming.",
-            "Their team handles clients beautifully with excellent service support.",
-            "Amazing experience! They genuinely care about providing standard service."
-        ],
-        staff: [
-            "The staff members are incredibly polite, humble, and cooperative.",
-            "Everyone working here is very well-mannered and extremely helpful.",
-            "Shoutout to the amazing staff for their wonderful behavior and support!"
-        ],
-        speed: [
-            "I was completely shocked by their super fast response and quick delivery.",
-            "Extremely efficient workflow. They complete tasks without wasting any time.",
-            "The speed of their service is commendable. No unnecessary waiting!"
-        ],
-        quality: [
-            "The quality of their product/service is superb and highly premium.",
-            "No compromise on quality here! Completely authentic and outstanding standard.",
-            "Everything they offer is robust, neat, and absolutely worth the pricing."
-        ],
-        recommend: [
-            "If you want genuine work, this is hands down the best place in town.",
-            "Do not think twice, blindly go for them. 100% recommended!",
-            "Will definitely refer them to all my close friends and family members."
-        ],
-        ends: [
-            "Highly satisfied. Five stars all the way! ⭐⭐⭐⭐⭐",
-            "Great job team, keep it up! ⭐⭐⭐⭐⭐",
-            "A truly perfect experience. ⭐⭐⭐⭐⭐"
-        ]
+        starters: {
+            high: [
+                `Absolutely loved my experience with ${CONFIG_NAME}!`,
+                `Highly recommend ${CONFIG_NAME} for their fantastic work.`,
+                `I am a very happy customer of ${CONFIG_NAME} and will surely visit again.`,
+                `Had a wonderful interaction with the team at ${CONFIG_NAME}.`
+            ],
+            low: [
+                `My experience with ${CONFIG_NAME} could have been much better.`,
+                `Was expecting a lot more from ${CONFIG_NAME} based on expectations.`,
+                `Average standard handling during my recent project with ${CONFIG_NAME}.`
+            ]
+        },
+        service: {
+            high: ["The customer service was top-notch, super professional, and welcoming.", "Their team handles clients beautifully with excellent service support."],
+            low: ["The customer service needs basic improvement.", "Response workflows felt a little slow and unorganized."]
+        },
+        staff: {
+            high: ["The staff members are incredibly polite, humble, and cooperative.", "Everyone working here is very well-mannered and extremely helpful."],
+            low: ["The staff coordination needs a bit of training.", "Felt that staff members were heavily preoccupied."]
+        },
+        speed: {
+            high: ["I was completely shocked by their super fast response and quick delivery.", "Extremely efficient workflow without wasting any time."],
+            low: ["The delivery and updates took longer than initially promised.", "Expect some delays when managing time-sensitive jobs."]
+        },
+        quality: {
+            high: ["The quality of their product/service is superb and highly premium.", "No compromise on quality here! Completely authentic standard."],
+            low: ["The overall finishing and build quality could definitely be polished.", "Average material standard provided compared to the pricing metrics."]
+        },
+        recommend: {
+            high: ["If you want genuine work, this is hands down the best place in town.", "Do not think twice, blindly go for them. 100% recommended!"],
+            low: ["Check out your regular local alternatives before processing directly.", "Consider trying them only if you are out of immediate choices."]
+        }
     };
 
     let chosenTags = [];
+    let currentRating = 0;
 
-    function toggleTag(btn, val) {
-        btn.classList.toggle('active');
-        if (btn.classList.contains('active')) {
-            chosenTags.push(val);
-        } else {
-            chosenTags = chosenTags.filter(item => item !== val);
-        }
-        generateReview();
-    }
-
-    function generateReview() {
-        const txtArea = document.getElementById('output-text');
-        if (chosenTags.length === 0) {
-            txtArea.value = "";
-            return;
-        }
+    function setRating(ratingValue) {
+        currentRating = ratingValue;
+        const stars = document.querySelectorAll('.star-item');
         
-        let story = [];
-        const pick = (list) => list[Math.floor(Math.random() * list.length)];
-        
-        story.push(pick(dataBank.starters));
-        chosenTags.forEach(t => { if(dataBank[t]) story.push(pick(dataBank[t])); });
-        story.push(pick(dataBank.ends));
-        
-        txtArea.value = story.join(" ");
-    }
-
-    function copyToClipboard() {
-        const txtArea = document.getElementById('output-text');
-        if(!txtArea.value) {
-            alert("Pehle koi option select karein!");
-            return;
-        }
-        txtArea.select();
-        navigator.clipboard.writeText(txtArea.value);
-        alert("Review text copy ho gaya! Ab upar Google button dabakar wahan paste kar dein.");
-    }
-</script>
-</body>
-</html>
+        stars.forEach((star, idx) => {
+            if (idx < ratingValue) {
