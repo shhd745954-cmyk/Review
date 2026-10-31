@@ -75,17 +75,17 @@
     </div>
 
 <script>
-    // =========================================================================
-    // ⚙️ BASE SETTINGS: AAPKA GOOGLE LINK TAIYAR HAI, WHATSAPP & INSTA BADLEIN
-    // =========================================================================
-    const MY_PLACE_ID = "ChIJl5rG3rhZNDoRqfi5I-qH_mA"; // <-- Aapki Google Place ID dynamic set ho chuki hai
-    const MY_WHATSAPP = "919999999999";                 // <-- Apna WhatsApp number daalein (91 ke sath)
-    const MY_INSTAGRAM = "your_username";                // <-- Apna Instagram username handle daalein
+    // ==========================================
+    // ⚙️ UPDATE YOUR BUSINESS LINKS & DETAILS HERE
+    // ==========================================
+    const BASE_WHATSAPP_NUMBER = "919154362628"; // Change to your WhatsApp Number (with 91)
+    const URL_GOOGLE = "https://search.google.com/local/writereview?placeid=ChIJl5rG3rhZNDoRqfi5I-qH_mA"; // Put your Google Place ID Review Link
+    const URL_INSTAGRAM = "https://instagram.com"; // Put your Instagram Profile URL
 
-    // Automating links injection
-    document.getElementById('go-google').href = "https://google.com" + MY_PLACE_ID;
-    document.getElementById('go-instagram').href = "https://instagram.com" + MY_INSTAGRAM;
-    document.getElementById('go-whatsapp').href = "https://wa.me" + MY_WHATSAPP;
+    // Init links
+    document.getElementById('go-google').href = URL_GOOGLE;
+    document.getElementById('go-instagram').href = URL_INSTAGRAM;
+    document.getElementById('go-whatsapp').href = "https://wa.me" + BASE_WHATSAPP_NUMBER;
 
     // AI Phrases Data Bank
     const dataBank = {
@@ -158,8 +158,9 @@
         const finalReviewText = story.join(" ");
         txtArea.value = finalReviewText;
 
+        // Dynamic WhatsApp share link configuration
         if(finalReviewText) {
-            document.getElementById('go-whatsapp').href = "https://wa.me" + MY_WHATSAPP + "?text=" + encodeURIComponent(finalReviewText);
+            document.getElementById('go-whatsapp').href = "https://wa.me" + BASE_WHATSAPP_NUMBER + "?text=" + encodeURIComponent(finalReviewText);
         }
     }
 
@@ -172,7 +173,7 @@
         txtArea.select();
         navigator.clipboard.writeText(txtArea.value);
         
-        // Instant visual feedback system 
+        // Instant button confirmation feedback
         copyBtn.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
         copyBtn.style.background = '#16a34a';
         setTimeout(() => {
